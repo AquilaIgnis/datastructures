@@ -15,6 +15,6 @@
 # Documentation
 
 ```bash
-go doc -all ./linear
+go doc -all ./linear | bat -l go
 
 ```
