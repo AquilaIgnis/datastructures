@@ -4,7 +4,7 @@
 
 - [x] Stack
 - [x] Queue
-- [ ] Linked List
+- [x] Linked List
 - [ ] Circular Buffer
 - [ ] Deque
 
