@@ -31,7 +31,7 @@
 
 - [x] Kadane's Algorithm
 - [x] Euclidean gcd
-- [ ] Fibonacci
+- [x] Fibonacci
 - [ ] Modular Arithmetic
 - [ ] Sieve of Eratosthenes
 - [ ] BFS Breadth-First Search
