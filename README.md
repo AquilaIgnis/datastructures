@@ -30,6 +30,7 @@
 # Algorithms ω
 
 - [x] Kadane's Algorithm
+- [x] Euclidean gcd
 
 # Each category solves different problems:
 

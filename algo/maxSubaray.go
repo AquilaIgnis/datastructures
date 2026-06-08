@@ -4,6 +4,7 @@ package algo
 // https://www.youtube.com/watch?v=qj3CjNEKFeM
 
 // MaxSubarray  -> returns the max sum of possible sub arrays
+// O(n)
 func MaxSubarray(array []int) int {
 	minimum := array[0]
 	maximum := 0
