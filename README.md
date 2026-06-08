@@ -27,10 +27,16 @@
 - [ ] Hash Map
 - [ ] Hash Set
 
-# Algorithms ω
+# Algorithms ωψγ
 
 - [x] Kadane's Algorithm
 - [x] Euclidean gcd
+- [ ] Fibonacci
+- [ ] Modular Arithmetic
+- [ ] Sieve of Eratosthenes
+- [ ] BFS Breadth-First Search
+- [ ] DFS Depth-First Search
+- [ ] Karatsuba algorithm
 
 # Each category solves different problems:
 
@@ -44,4 +50,8 @@
 
 ```bash
 go doc -all ./linear | bat -l go
+```
+
+```bash
+go doc -all ./algo | bat -l go
 ```

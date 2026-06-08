@@ -1,22 +1,31 @@
 package linear
 
-type baseTypes interface {
+// BaseTypes
+type BaseTypes interface {
 	int | int8 | int16 | int32 | int64 |
 		uint | uint8 | uint16 | uint32 | uint64 |
 		float32 | float64 | string | bool
 }
 
 // CircularBuffer -> Circular Buffer struct only takes baseTypes
-type CircularBuffer[T baseTypes] struct {
-	array [10]T
-	cHead int
-	cTail int
-	size  int
+// .Current is a pointer to tail
+type CircularBuffer[T BaseTypes] struct {
+	array   [10]T
+	cHead   int
+	cTail   int
+	size    int
+	Current *T
 }
 
-// Add() -> adds values wrapping around to overwrite oldest
-func (cb *CircularBuffer[T]) Add(val T) {
+// NewCircularBuffer[type]() -> Creates a circular buffer (size of 10)
+func NewCircularBuffer[T BaseTypes]() *CircularBuffer[T] {
+	return &CircularBuffer[T]{}
+}
+
+// Push() -> adds values wrapping around to overwrite oldest
+func (cb *CircularBuffer[T]) Push(val T) {
 	cb.array[cb.cTail] = val
+	cb.Current = &cb.array[cb.cTail]
 
 	cb.cTail = (cb.cTail + 1) % len(cb.array) // wrap around
 	if cb.size < len(cb.array) {
@@ -26,7 +35,7 @@ func (cb *CircularBuffer[T]) Add(val T) {
 	}
 }
 
-// Data() -> returns the array in CircularBuffer
+// Data() -> returns the entire array in CircularBuffer
 func (cb CircularBuffer[T]) Data() [10]T {
 	return cb.array
 }
