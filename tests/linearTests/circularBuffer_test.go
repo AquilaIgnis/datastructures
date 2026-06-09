@@ -11,7 +11,7 @@ import (
 func intBuffer(vals ...int) linear.CircularBuffer[int] {
 	var cb linear.CircularBuffer[int]
 	for _, v := range vals {
-		cb.Add(v)
+		cb.Push(v)
 	}
 	return cb
 }
@@ -108,7 +108,7 @@ func TestCircularBuffer_DoubleWrap(t *testing.T) {
 func TestCircularBuffer_StressAdd(t *testing.T) {
 	var cb linear.CircularBuffer[int]
 	for i := 1; i <= 100; i++ {
-		cb.Add(i)
+		cb.Push(i)
 	}
 	// last 10 values added were 91-100
 	// after 100 adds: tail wraps, slots should hold 91-100
@@ -126,8 +126,8 @@ func TestCircularBuffer_StressAdd(t *testing.T) {
 
 func TestCircularBuffer_StringType(t *testing.T) {
 	var cb linear.CircularBuffer[string]
-	cb.Add("hello")
-	cb.Add("world")
+	cb.Push("hello")
+	cb.Push("world")
 	data := cb.Data()
 	if data[0] != "hello" {
 		t.Errorf("expected hello, got %s", data[0])
@@ -141,7 +141,7 @@ func TestCircularBuffer_StringOverflow(t *testing.T) {
 	var cb linear.CircularBuffer[string]
 	words := []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"}
 	for _, w := range words {
-		cb.Add(w)
+		cb.Push(w)
 	}
 	// "k" overwrote slot 0 ("a")
 	if cb.Data()[0] != "k" {
@@ -153,8 +153,8 @@ func TestCircularBuffer_StringOverflow(t *testing.T) {
 
 func TestCircularBuffer_FloatType(t *testing.T) {
 	var cb linear.CircularBuffer[float64]
-	cb.Add(3.14)
-	cb.Add(2.71)
+	cb.Push(3.14)
+	cb.Push(2.71)
 	data := cb.Data()
 	if data[0] != 3.14 {
 		t.Errorf("expected 3.14, got %f", data[0])

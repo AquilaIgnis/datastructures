@@ -27,6 +27,14 @@
 - [ ] Hash Map
 - [ ] Hash Set
 
+# Each category solves different problems:
+
+- Linear — ordered data, undo/redo, scheduling
+- Tree — searching, sorting, hierarchical data like file systems
+- Graph — networks, maps, social connections, dependencies
+- Hash — fast lookups, caching, counting
+- Set — membership testing, deduplication
+
 # Algorithms ωψγ
 
 - [x] Kadane's Algorithm
@@ -38,14 +46,6 @@
 - [ ] DFS Depth-First Search
 - [ ] Karatsuba algorithm
 
-# Each category solves different problems:
-
-- Linear — ordered data, undo/redo, scheduling
-- Tree — searching, sorting, hierarchical data like file systems
-- Graph — networks, maps, social connections, dependencies
-- Hash — fast lookups, caching, counting
-- Set — membership testing, deduplication
-
 # Documentation
 
 ```bash
@@ -54,4 +54,10 @@ go doc -all ./linear | bat -l go
 
 ```bash
 go doc -all ./algo | bat -l go
+```
+
+# Tests
+
+```bash
+go test ./tests/...
 ```
