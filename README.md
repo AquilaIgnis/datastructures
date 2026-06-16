@@ -10,17 +10,10 @@
 
 ## Tree — hierarchical, parent/child relationships
 
-- [ ] Binary Tree
 - [ ] Binary Search Tree
 - [ ] AVL Tree
 - [ ] Heap (min/max)
 - [ ] Trie
-
-## Graph — nodes connected by edges, no strict hierarchy
-
-- [ ] Directed
-- [ ] Undirected
-- [ ] Weighted
 
 ## Hash Based — key/value
 
