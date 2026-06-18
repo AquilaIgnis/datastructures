@@ -10,7 +10,7 @@
 
 ## Tree — hierarchical, parent/child relationships
 
-- [ ] Binary Search Tree
+- [x] Binary Search Tree
 - [ ] AVL Tree
 - [ ] Heap (min/max)
 - [ ] Trie

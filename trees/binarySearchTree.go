@@ -65,3 +65,25 @@ func displayHelper[T NumericTypes](node *Node[T]) {
 	displayHelper(node.left)
 	displayHelper(node.right)
 }
+
+// Find() => binary search implementation returns a pointer to the node and true if val is found in tree, else returns zero struct and false
+func (t BSTree[T]) Find(val T) (*Node[T], bool) {
+	zero := &Node[T]{}
+
+	if t.root == nil {
+		return zero, false
+	}
+
+	for t.root != nil {
+		if val == t.root.Data {
+			return t.root, true
+		} else if val < t.root.Data {
+			t.root = t.root.left
+		} else if val > t.root.Data {
+			t.root = t.root.right
+		}
+	}
+
+	fmt.Println("Data not Found")
+	return zero, false
+}
