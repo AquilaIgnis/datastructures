@@ -10,16 +10,18 @@ type BaseTypes interface {
 // CircularBuffer -> Circular Buffer struct only takes baseTypes
 // .Current is a pointer to tail
 type CircularBuffer[T BaseTypes] struct {
-	array   [10]T
+	array   []T
 	cHead   int
 	cTail   int
 	size    int
 	Current *T
 }
 
-// NewCircularBuffer[type]() -> Creates a circular buffer (size of 10)
-func NewCircularBuffer[T BaseTypes]() *CircularBuffer[T] {
-	return &CircularBuffer[T]{}
+// NewCircularBuffer[type](size) -> Creates a circular buffer of given size
+func NewCircularBuffer[T BaseTypes](size int) *CircularBuffer[T] {
+	return &CircularBuffer[T]{
+		array: make([]T, size),
+	}
 }
 
 // Push() -> adds values wrapping around to overwrite oldest
@@ -36,6 +38,6 @@ func (cb *CircularBuffer[T]) Push(val T) {
 }
 
 // Data() -> returns the entire array in CircularBuffer
-func (cb CircularBuffer[T]) Data() [10]T {
+func (cb CircularBuffer[T]) Data() []T {
 	return cb.array
 }
