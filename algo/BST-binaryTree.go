@@ -7,7 +7,7 @@ import (
 	"datastructures/trees"
 )
 
-// BstTree() => Breadth first search implementation for Binary trees,
+// BstTree() => Breadth first search implementation for Binary trees O(n) ,
 // usage var mytree trees.BSTree[[int]] ,
 // BstTree(mytree);
 func BstTree[T trees.NumericTypes](node trees.BSTree[T]) {

@@ -41,12 +41,15 @@ func (q *Queue[T]) Peek() (T, bool) {
 
 // Pop() -> returns the upcoming item and removes it from Queue
 func (q *Queue[T]) Pop() (T, error) {
+	var zero T
+
 	if len(q.container) <= 0 {
-		var zero T
 		return zero, errors.New("Queue is empty")
 	}
 
 	upcoming := q.container[0]
+	// if zero is a pointer the GC clears it
+	q.container[0] = zero
 	q.container = q.container[1:]
 
 	return upcoming, nil
