@@ -42,7 +42,7 @@ go doc -all ./algo | bat -l go
 ```
 
 ```bash
-go doc -all ./trees | bat -l go
+go doc -all ./trees/ | bat -l go && go doc -all ./trees/avl  | bat -l go
 ```
 
 # Tests
