@@ -1,5 +1,7 @@
 package avl
 
+import "fmt"
+
 type numericTypes interface {
 	int | int8 | int16 | int32 | int64 |
 		uint | uint8 | uint16 | uint32 | uint64 |
@@ -112,7 +114,8 @@ func insertHelper[T numericTypes](node *AvlNode[T], data T) *AvlNode[T] {
 	return node
 }
 
-// Find() => binary search implementation returns a pointer to the node and true if val is found in tree, else returns zero struct and false
+// Find() => binary search implementation returns a pointer to the node and true
+// if val is found in tree, else returns zero struct and false
 func (t AvlTree[T]) Find(val T) (*AvlNode[T], bool) {
 	zero := &AvlNode[T]{}
 
@@ -131,4 +134,61 @@ func (t AvlTree[T]) Find(val T) (*AvlNode[T], bool) {
 	}
 
 	return zero, false
+}
+
+// Display() -> draws the tree rotated 90° left: right subtree on top,
+// left subtree on the bottom, connected with box-drawing characters.
+// Iterative , no recursion.
+func (t AvlTree[T]) Display() {
+	if t.Root == nil {
+		fmt.Println("<empty>")
+		return
+	}
+
+	// A frame is either a node to expand or a ready made line to print.
+	type frame struct {
+		node   *AvlNode[T]
+		prefix string
+		isLeft bool
+		isRoot bool
+		line   string
+		print  bool
+	}
+
+	stack := []frame{{node: t.Root, isRoot: true}}
+
+	for len(stack) > 0 {
+		f := stack[len(stack)-1]
+		stack = stack[:len(stack)-1]
+
+		if f.print {
+			fmt.Println(f.line)
+			continue
+		}
+
+		n := f.node
+
+		var connector, rightPrefix, leftPrefix string
+		switch {
+		case f.isRoot:
+			connector = ""
+			rightPrefix, leftPrefix = "    ", "    "
+		case f.isLeft:
+			connector = "└── "
+			rightPrefix, leftPrefix = f.prefix+"│   ", f.prefix+"    "
+		default:
+			connector = "┌── "
+			rightPrefix, leftPrefix = f.prefix+"    ", f.prefix+"│   "
+		}
+
+		line := f.prefix + connector + fmt.Sprintf("%v", n.Data)
+
+		if n.Left != nil {
+			stack = append(stack, frame{node: n.Left, prefix: leftPrefix, isLeft: true})
+		}
+		stack = append(stack, frame{print: true, line: line})
+		if n.Right != nil {
+			stack = append(stack, frame{node: n.Right, prefix: rightPrefix, isLeft: false})
+		}
+	}
 }
