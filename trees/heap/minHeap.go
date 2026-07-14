@@ -85,15 +85,15 @@ func (h *MinHeap[T]) PopMin() (T, bool) {
 	last := len(h.Array) - 1
 	root := h.Array[0]
 
-	// swap places with last index
-	h.Array[0], h.Array[last] = h.Array[last], h.Array[0]
-
-	h.Array = h.Array[0:last]
-
-	h.siftDown(0)
+	// move last value to the root
+	h.Array[0] = h.Array[last]
 
 	// GC cleanup
 	h.Array[last] = zero
+
+	h.Array = h.Array[:last]
+
+	h.siftDown(0)
 
 	return root, true
 }

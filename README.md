@@ -12,7 +12,7 @@
 
 - [x] Binary Search Tree
 - [x] AVL Tree
-- [ ] Heap (min/max)
+- [x] Heap (min/max)
 - [ ] Trie
 
 ## Hash Based — key/value
@@ -42,7 +42,7 @@ go doc -all ./algo | bat -l go
 ```
 
 ```bash
-go doc -all ./trees/ | bat -l go && go doc -all ./trees/avl  | bat -l go
+for p in ./trees/ ./trees/avl ./trees/heap; do go doc -all "$p"; done | bat -l go
 ```
 
 # Tests
