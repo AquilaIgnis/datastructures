@@ -25,6 +25,7 @@
 - [x] Kadane's Algorithm
 - [x] Euclidean gcd
 - [x] Fibonacci
+- [x] Heap Sort
 - [ ] Modular Arithmetic
 - [ ] Sieve of Eratosthenes
 - [x] BFS Breadth-First Search
