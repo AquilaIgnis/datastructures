@@ -11,20 +11,20 @@ import (
 //  right child is at index 2*i + 2.
 //  parent index [(i-1)/2].
 
-// MinHeap :: binary heap implementation,  Insertion - O(log n).
+// MaxHeap :: binary heap implementation,  Insertion - O(log n).
 // Array[] is managed internally , treat it as read only
-type MinHeap[T cmp.Ordered] struct {
+type MaxHeap[T cmp.Ordered] struct {
 	Array []T
 }
 
 // NewMinHeap() :: Creates a new min heap tree.
-func NewMinHeap[T cmp.Ordered]() *MinHeap[T] {
-	return &MinHeap[T]{}
+func NewMaxHeap[T cmp.Ordered]() *MaxHeap[T] {
+	return &MaxHeap[T]{}
 }
 
 // Insert() -> adds new value to heap.
 // O(logn)
-func (h *MinHeap[T]) Insert(val T) {
+func (h *MaxHeap[T]) Insert(val T) {
 	h.Array = append(h.Array, val)
 
 	h.siftUp(len(h.Array) - 1)
@@ -32,11 +32,11 @@ func (h *MinHeap[T]) Insert(val T) {
 
 // siftUp() :: moves the smaller value node up, used when inserting.
 // O(logn)
-func (h *MinHeap[T]) siftUp(i int) {
+func (h *MaxHeap[T]) siftUp(i int) {
 	for i > 0 {
 		parentIndex := (i - 1) / 2
 
-		if h.Array[i] < h.Array[parentIndex] {
+		if h.Array[i] > h.Array[parentIndex] {
 			// swap places
 			h.Array[i], h.Array[parentIndex] = h.Array[parentIndex], h.Array[i]
 			i = parentIndex
@@ -48,7 +48,7 @@ func (h *MinHeap[T]) siftUp(i int) {
 
 // siftDown() :: receives an index to move its value down the tree.
 // O(logn)
-func (h *MinHeap[T]) siftDown(i int) {
+func (h *MaxHeap[T]) siftDown(i int) {
 	n := len(h.Array)
 
 	for {
@@ -58,10 +58,10 @@ func (h *MinHeap[T]) siftDown(i int) {
 		left := 2*i + 1
 		right := 2*i + 2
 
-		if left < n && h.Array[left] < h.Array[smallest] {
+		if left < n && h.Array[left] > h.Array[smallest] {
 			smallest = left
 		}
-		if right < n && h.Array[right] < h.Array[smallest] {
+		if right < n && h.Array[right] > h.Array[smallest] {
 			smallest = right
 		}
 
@@ -77,7 +77,7 @@ func (h *MinHeap[T]) siftDown(i int) {
 }
 
 // PopMin() -> returns the root
-func (h *MinHeap[T]) PopMin() (T, bool) {
+func (h *MaxHeap[T]) PopMax() (T, bool) {
 	var zero T
 	if len(h.Array) <= 0 {
 		return zero, false
@@ -101,7 +101,7 @@ func (h *MinHeap[T]) PopMin() (T, bool) {
 
 // Heapify() -> makes arbitrary slice a heap from scratch . returns error if
 // the heap is not empty
-func (h *MinHeap[T]) Heapify(array []T) error {
+func (h *MaxHeap[T]) Heapify(array []T) error {
 	if len(h.Array) != 0 {
 		return errors.New("Can only init Heapify on empty heap")
 	}
