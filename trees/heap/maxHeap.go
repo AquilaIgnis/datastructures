@@ -17,7 +17,7 @@ type MaxHeap[T cmp.Ordered] struct {
 	Array []T
 }
 
-// NewMinHeap() :: Creates a new min heap tree.
+// NewMinHeap() :: Creates a new max heap tree.
 func NewMaxHeap[T cmp.Ordered]() *MaxHeap[T] {
 	return &MaxHeap[T]{}
 }
@@ -30,7 +30,7 @@ func (h *MaxHeap[T]) Insert(val T) {
 	h.siftUp(len(h.Array) - 1)
 }
 
-// siftUp() :: moves the smaller value node up, used when inserting.
+// siftUp() :: moves the larger value node up, used when inserting.
 // O(logn)
 func (h *MaxHeap[T]) siftUp(i int) {
 	for i > 0 {
@@ -76,7 +76,7 @@ func (h *MaxHeap[T]) siftDown(i int) {
 	}
 }
 
-// PopMin() -> returns the root
+// PopMax() -> returns the root
 func (h *MaxHeap[T]) PopMax() (T, bool) {
 	var zero T
 	if len(h.Array) <= 0 {
