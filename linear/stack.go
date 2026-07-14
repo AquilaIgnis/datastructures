@@ -38,6 +38,10 @@ func (s *Stack[T]) Pop() (T, error) {
 	}
 
 	last := s.container[len(s.container)-1]
+
+	// GC cleanup
+	s.container[len(s.container)-1] = zero
+
 	s.container = s.container[:len(s.container)-1]
 
 	return last, nil
