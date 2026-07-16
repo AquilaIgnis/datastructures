@@ -9,7 +9,7 @@ import (
 // --- map type ---
 
 func TestQueueWithMaps(t *testing.T) {
-	q := linear.QueueFixed[map[string]int](3)
+	q := linear.NewQueueFixed[map[string]int](3)
 
 	m1 := map[string]int{"a": 1}
 	m2 := map[string]int{"b": 2, "c": 3}
@@ -39,7 +39,7 @@ func TestQueueWithMaps(t *testing.T) {
 }
 
 func TestQueueMapMutationAfterEnqueue(t *testing.T) {
-	q := linear.QueueFixed[map[string]int](2)
+	q := linear.NewQueueFixed[map[string]int](2)
 
 	m := map[string]int{"x": 10}
 	q.Push(m)
@@ -56,7 +56,7 @@ func TestQueueMapMutationAfterEnqueue(t *testing.T) {
 }
 
 func TestQueueMapOverCapacity(t *testing.T) {
-	q := linear.QueueFixed[map[string]int](1)
+	q := linear.NewQueueFixed[map[string]int](1)
 	q.Push(map[string]int{"a": 1})
 
 	err := q.Push(map[string]int{"b": 2})
@@ -73,7 +73,7 @@ type Person struct {
 }
 
 func TestQueueWithStructs(t *testing.T) {
-	q := linear.QueueFixed[Person](3)
+	q := linear.NewQueueFixed[Person](3)
 
 	q.Push(Person{"Alice", 30})
 	q.Push(Person{"Bob", 25})
@@ -95,7 +95,7 @@ func TestQueueWithStructs(t *testing.T) {
 }
 
 func TestQueueStructOverCapacity(t *testing.T) {
-	q := linear.QueueFixed[Person](2)
+	q := linear.NewQueueFixed[Person](2)
 	q.Push(Person{"A", 1})
 	q.Push(Person{"B", 2})
 
@@ -108,7 +108,7 @@ func TestQueueStructOverCapacity(t *testing.T) {
 // --- pointer type ---
 
 func TestQueueWithPointers(t *testing.T) {
-	q := linear.QueueFixed[*Person](3)
+	q := linear.NewQueueFixed[*Person](3)
 
 	p1 := &Person{"Alice", 30}
 	p2 := &Person{"Bob", 25}
@@ -128,7 +128,7 @@ func TestQueueWithPointers(t *testing.T) {
 }
 
 func TestQueueNilPointerPull(t *testing.T) {
-	q := linear.QueueFixed[*Person](2)
+	q := linear.NewQueueFixed[*Person](2)
 	q.Push(nil)
 
 	got, err := q.Pop()
@@ -141,7 +141,7 @@ func TestQueueNilPointerPull(t *testing.T) {
 }
 
 func TestQueuePointerMutationAfterEnqueue(t *testing.T) {
-	q := linear.QueueFixed[*Person](1)
+	q := linear.NewQueueFixed[*Person](1)
 
 	p := &Person{"Alice", 30}
 	q.Push(p)
@@ -157,7 +157,7 @@ func TestQueuePointerMutationAfterEnqueue(t *testing.T) {
 // --- slice type ---
 
 func TestQueueWithSlices(t *testing.T) {
-	q := linear.QueueFixed[[]int](3)
+	q := linear.NewQueueFixed[[]int](3)
 
 	q.Push([]int{1, 2, 3})
 	q.Push([]int{}) // empty slice
@@ -174,7 +174,7 @@ func TestQueueWithSlices(t *testing.T) {
 }
 
 func TestQueueSliceMutationAfterEnqueue(t *testing.T) {
-	q := linear.QueueFixed[[]int](1)
+	q := linear.NewQueueFixed[[]int](1)
 
 	s := []int{1, 2, 3}
 	q.Push(s)
@@ -190,7 +190,7 @@ func TestQueueSliceMutationAfterEnqueue(t *testing.T) {
 }
 
 func TestQueueSliceOverCapacity(t *testing.T) {
-	q := linear.QueueFixed[[]int](1)
+	q := linear.NewQueueFixed[[]int](1)
 	q.Push([]int{1})
 
 	err := q.Push([]int{2})
@@ -202,7 +202,7 @@ func TestQueueSliceOverCapacity(t *testing.T) {
 // --- empty queue edge cases across all types ---
 
 func TestQueuePullEmptyMap(t *testing.T) {
-	q := linear.QueueFixed[map[string]int](2)
+	q := linear.NewQueueFixed[map[string]int](2)
 	_, err := q.Pop()
 	if err == nil {
 		t.Error("expected error pulling from empty map queue")
@@ -210,7 +210,7 @@ func TestQueuePullEmptyMap(t *testing.T) {
 }
 
 func TestQueuePullEmptyPointer(t *testing.T) {
-	q := linear.QueueFixed[*Person](2)
+	q := linear.NewQueueFixed[*Person](2)
 	_, err := q.Pop()
 	if err == nil {
 		t.Error("expected error pulling from empty pointer queue")
@@ -218,7 +218,7 @@ func TestQueuePullEmptyPointer(t *testing.T) {
 }
 
 func TestQueuePullEmptySlice(t *testing.T) {
-	q := linear.QueueFixed[[]int](2)
+	q := linear.NewQueueFixed[[]int](2)
 	_, err := q.Pop()
 	if err == nil {
 		t.Error("expected error pulling from empty slice queue")
@@ -226,7 +226,7 @@ func TestQueuePullEmptySlice(t *testing.T) {
 }
 
 func TestQueueCullEmptyStruct(t *testing.T) {
-	q := linear.QueueFixed[Person](2)
+	q := linear.NewQueueFixed[Person](2)
 	_, err := q.Cull()
 	if err == nil {
 		t.Error("expected error culling from empty struct queue")
@@ -234,7 +234,7 @@ func TestQueueCullEmptyStruct(t *testing.T) {
 }
 
 func TestQueuePeekEmptyPointer(t *testing.T) {
-	q := linear.QueueFixed[*Person](2)
+	q := linear.NewQueueFixed[*Person](2)
 	val, ok := q.Peek()
 	if ok || val != nil {
 		t.Errorf("expected (nil, false) from empty pointer queue Peek, got (%v, %v)", val, ok)

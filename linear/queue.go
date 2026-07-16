@@ -11,8 +11,8 @@ type Queue[T any] struct {
 	container []T
 }
 
-// QueueFixed -> QueueFixed[Type](size) creates a Queue with no fixed size
-func QueueFixed[T any](value uint8) *Queue[T] {
+// NewQueueFixed -> NewQueueFixed[Type](size) creates a Queue with no fixed size
+func NewQueueFixed[T any](value uint8) *Queue[T] {
 	return &Queue[T]{
 		capacity:  value,
 		container: make([]T, 0, value),

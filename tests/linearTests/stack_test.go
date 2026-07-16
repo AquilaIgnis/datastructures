@@ -9,7 +9,7 @@ import (
 // --- map type ---
 
 func TestStackWithMaps(t *testing.T) {
-	s := linear.StackFixed[map[string]int](3)
+	s := linear.NewStackFixed[map[string]int](3)
 
 	m1 := map[string]int{"a": 1}
 	m2 := map[string]int{"b": 2, "c": 3}
@@ -39,7 +39,7 @@ func TestStackWithMaps(t *testing.T) {
 }
 
 func TestStackMapMutationAfterPush(t *testing.T) {
-	s := linear.StackFixed[map[string]int](2)
+	s := linear.NewStackFixed[map[string]int](2)
 
 	m := map[string]int{"x": 10}
 	s.Push(m)
@@ -55,7 +55,7 @@ func TestStackMapMutationAfterPush(t *testing.T) {
 }
 
 func TestStackMapOverCapacity(t *testing.T) {
-	s := linear.StackFixed[map[string]int](1)
+	s := linear.NewStackFixed[map[string]int](1)
 	s.Push(map[string]int{"a": 1})
 
 	err := s.Push(map[string]int{"b": 2})
@@ -67,7 +67,7 @@ func TestStackMapOverCapacity(t *testing.T) {
 // --- struct (object) type ---
 
 func TestStackWithStructs(t *testing.T) {
-	s := linear.StackFixed[Person](3)
+	s := linear.NewStackFixed[Person](3)
 
 	s.Push(Person{"Alice", 30})
 	s.Push(Person{"Bob", 25})
@@ -94,7 +94,7 @@ func TestStackWithStructs(t *testing.T) {
 }
 
 func TestStackStructOverCapacity(t *testing.T) {
-	s := linear.StackFixed[Person](2)
+	s := linear.NewStackFixed[Person](2)
 	s.Push(Person{"A", 1})
 	s.Push(Person{"B", 2})
 
@@ -105,7 +105,7 @@ func TestStackStructOverCapacity(t *testing.T) {
 }
 
 func TestStackClearStructs(t *testing.T) {
-	s := linear.StackFixed[Person](3)
+	s := linear.NewStackFixed[Person](3)
 	s.Push(Person{"Alice", 30})
 	s.Push(Person{"Bob", 25})
 
@@ -119,7 +119,7 @@ func TestStackClearStructs(t *testing.T) {
 // --- pointer type ---
 
 func TestStackWithPointers(t *testing.T) {
-	s := linear.StackFixed[*Person](3)
+	s := linear.NewStackFixed[*Person](3)
 
 	p1 := &Person{"Alice", 30}
 	p2 := &Person{"Bob", 25}
@@ -144,7 +144,7 @@ func TestStackWithPointers(t *testing.T) {
 }
 
 func TestStackNilPointerPop(t *testing.T) {
-	s := linear.StackFixed[*Person](2)
+	s := linear.NewStackFixed[*Person](2)
 	s.Push(nil)
 
 	got, err := s.Pop()
@@ -157,7 +157,7 @@ func TestStackNilPointerPop(t *testing.T) {
 }
 
 func TestStackPointerMutationAfterPush(t *testing.T) {
-	s := linear.StackFixed[*Person](1)
+	s := linear.NewStackFixed[*Person](1)
 
 	p := &Person{"Alice", 30}
 	s.Push(p)
@@ -173,7 +173,7 @@ func TestStackPointerMutationAfterPush(t *testing.T) {
 // --- slice type ---
 
 func TestStackWithSlices(t *testing.T) {
-	s := linear.StackFixed[[]int](3)
+	s := linear.NewStackFixed[[]int](3)
 
 	s.Push([]int{1, 2, 3})
 	s.Push([]int{})
@@ -195,7 +195,7 @@ func TestStackWithSlices(t *testing.T) {
 }
 
 func TestStackSliceMutationAfterPush(t *testing.T) {
-	s := linear.StackFixed[[]int](1)
+	s := linear.NewStackFixed[[]int](1)
 
 	sl := []int{1, 2, 3}
 	s.Push(sl)
@@ -211,7 +211,7 @@ func TestStackSliceMutationAfterPush(t *testing.T) {
 }
 
 func TestStackSliceOverCapacity(t *testing.T) {
-	s := linear.StackFixed[[]int](1)
+	s := linear.NewStackFixed[[]int](1)
 	s.Push([]int{1})
 
 	err := s.Push([]int{2})
@@ -223,7 +223,7 @@ func TestStackSliceOverCapacity(t *testing.T) {
 // --- empty stack edge cases ---
 
 func TestStackPopEmpty(t *testing.T) {
-	s := linear.StackFixed[map[string]int](2)
+	s := linear.NewStackFixed[map[string]int](2)
 	_, err := s.Pop()
 	if err == nil {
 		t.Error("expected error popping from empty map stack")
@@ -231,7 +231,7 @@ func TestStackPopEmpty(t *testing.T) {
 }
 
 func TestStackPopEmptyPointer(t *testing.T) {
-	s := linear.StackFixed[*Person](2)
+	s := linear.NewStackFixed[*Person](2)
 	_, err := s.Pop()
 	if err == nil {
 		t.Error("expected error popping from empty pointer stack")
@@ -239,7 +239,7 @@ func TestStackPopEmptyPointer(t *testing.T) {
 }
 
 func TestStackPopEmptySlice(t *testing.T) {
-	s := linear.StackFixed[[]int](2)
+	s := linear.NewStackFixed[[]int](2)
 	_, err := s.Pop()
 	if err == nil {
 		t.Error("expected error popping from empty slice stack")
@@ -247,7 +247,7 @@ func TestStackPopEmptySlice(t *testing.T) {
 }
 
 func TestStackPopEmptyStruct(t *testing.T) {
-	s := linear.StackFixed[Person](2)
+	s := linear.NewStackFixed[Person](2)
 	_, err := s.Pop()
 	if err == nil {
 		t.Error("expected error popping from empty struct stack")
@@ -263,7 +263,7 @@ func TestStackPeekEmptyPanics(t *testing.T) {
 			t.Error("expected panic from Peek on empty stack, got none")
 		}
 	}()
-	s := linear.StackFixed[*Person](2)
+	s := linear.NewStackFixed[*Person](2)
 	s.Peek()
 }
 
@@ -273,6 +273,6 @@ func TestStackFirstEmptyPanics(t *testing.T) {
 			t.Error("expected panic from First on empty stack, got none")
 		}
 	}()
-	s := linear.StackFixed[*Person](2)
+	s := linear.NewStackFixed[*Person](2)
 	s.First()
 }

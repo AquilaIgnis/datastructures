@@ -10,8 +10,8 @@ type Stack[T any] struct {
 	container []T
 }
 
-// StackFixed -> creates Stack with a fixed size
-func StackFixed[T any](value int) *Stack[T] {
+// NewStackFixed -> creates Stack with a fixed size
+func NewStackFixed[T any](value int) *Stack[T] {
 	return &Stack[T]{
 		capacity:  value,
 		container: make([]T, 0, value),
