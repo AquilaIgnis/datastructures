@@ -17,7 +17,7 @@
 
 ## Sets
 
-- [ ] Union Find
+- [x] Union Find
 - [ ] Bloom filter
 - [ ] HyperLogLog
 
