@@ -15,10 +15,11 @@
 - [x] Heap (min/max)
 - [ ] Trie
 
-## Hash Based — key/value
+## Sets
 
-- [ ] Hash Map
-- [ ] Hash Set
+- [ ] Union Find
+- [ ] Bloom filter
+- [ ] HyperLogLog
 
 # Algorithms ωψγ
 
