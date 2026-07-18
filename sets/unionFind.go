@@ -1,12 +1,17 @@
 package sets
 
+//	UnionFind {
+//		disjointed int
+//		parent     []int
+//		rank       []int
+//	}
 type UnionFind struct {
 	disjointed int
 	parent     []int
 	rank       []int
 }
 
-// NewUnionFind() -> Creates an disjoint set
+// NewUnionFind() -> Creates an disjoint set ,takes the unique elements as parameter.
 func NewUnionFind(uniqueElements int) *UnionFind {
 	// counts from 0 correction
 	uniqueElements += 1
@@ -68,7 +73,7 @@ func (uf *UnionFind) Union(a int, b int) bool {
 }
 
 // IsUnion() -> returns true if the parameters have the same root
-func (uf UnionFind) IsUnion(a int, b int) bool {
+func (uf *UnionFind) IsUnion(a int, b int) bool {
 	if uf.Find(a) == uf.Find(b) {
 		return true
 	}
@@ -76,6 +81,6 @@ func (uf UnionFind) IsUnion(a int, b int) bool {
 }
 
 // Disjointed() -> returns the count of disjointed sets remaining
-func (uf UnionFind) Disjointed() int {
+func (uf *UnionFind) Disjointed() int {
 	return uf.disjointed
 }
