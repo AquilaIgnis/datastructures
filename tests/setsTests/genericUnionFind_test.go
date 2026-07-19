@@ -9,14 +9,14 @@ import (
 // --- NewStringsUnion ---
 
 func TestNewStringsUnionStartsFullyDisjointed(t *testing.T) {
-	u := sets.NewStringsUnion([]string{"a", "b", "c", "d"})
+	u := sets.NewGenericUnion([]string{"a", "b", "c", "d"})
 	if got := u.Disjointed(); got != 4 {
 		t.Errorf("expected 4 disjoint sets initially, got %d", got)
 	}
 }
 
 func TestNewStringsUnionDeduplicates(t *testing.T) {
-	u := sets.NewStringsUnion([]string{"a", "b", "a", "c", "b", "a"})
+	u := sets.NewGenericUnion([]string{"a", "b", "a", "c", "b", "a"})
 	// only a, b, c are unique
 	if got := u.Disjointed(); got != 3 {
 		t.Errorf("expected 3 disjoint sets after dedup, got %d", got)
@@ -25,7 +25,7 @@ func TestNewStringsUnionDeduplicates(t *testing.T) {
 
 func TestNewStringsUnionEachNameIsOwnRep(t *testing.T) {
 	names := []string{"alice", "bob", "carol"}
-	u := sets.NewStringsUnion(names)
+	u := sets.NewGenericUnion(names)
 	for _, name := range names {
 		rep, ok := u.Rep(name)
 		if !ok {
@@ -38,7 +38,7 @@ func TestNewStringsUnionEachNameIsOwnRep(t *testing.T) {
 }
 
 func TestNewStringsUnionEmptyInput(t *testing.T) {
-	u := sets.NewStringsUnion(nil)
+	u := sets.NewGenericUnion[string](nil)
 	if got := u.Disjointed(); got != 0 {
 		t.Errorf("expected 0 disjoint sets for empty input, got %d", got)
 	}
@@ -47,14 +47,14 @@ func TestNewStringsUnionEmptyInput(t *testing.T) {
 // --- Union ---
 
 func TestNamedUnionReturnsTrueOnMerge(t *testing.T) {
-	u := sets.NewStringsUnion([]string{"a", "b", "c"})
+	u := sets.NewGenericUnion([]string{"a", "b", "c"})
 	if !u.Union("a", "b") {
 		t.Error("expected Union(a,b) to return true on a fresh merge")
 	}
 }
 
 func TestNamedUnionReturnsFalseWhenAlreadyJoined(t *testing.T) {
-	u := sets.NewStringsUnion([]string{"a", "b", "c"})
+	u := sets.NewGenericUnion([]string{"a", "b", "c"})
 	u.Union("a", "b")
 	if u.Union("a", "b") {
 		t.Error("expected Union(a,b) to return false when already in the same set")
@@ -62,7 +62,7 @@ func TestNamedUnionReturnsFalseWhenAlreadyJoined(t *testing.T) {
 }
 
 func TestNamedUnionReturnsFalseTransitively(t *testing.T) {
-	u := sets.NewStringsUnion([]string{"a", "b", "c"})
+	u := sets.NewGenericUnion([]string{"a", "b", "c"})
 	u.Union("a", "b")
 	u.Union("b", "c")
 	// a and c are now connected through b
@@ -72,7 +72,7 @@ func TestNamedUnionReturnsFalseTransitively(t *testing.T) {
 }
 
 func TestNamedUnionUnknownNameReturnsFalse(t *testing.T) {
-	u := sets.NewStringsUnion([]string{"a", "b"})
+	u := sets.NewGenericUnion([]string{"a", "b"})
 	if u.Union("a", "ghost") {
 		t.Error("expected Union with an unknown name to return false")
 	}
@@ -83,7 +83,7 @@ func TestNamedUnionUnknownNameReturnsFalse(t *testing.T) {
 }
 
 func TestNamedUnionDecrementsDisjointedCount(t *testing.T) {
-	u := sets.NewStringsUnion([]string{"a", "b", "c", "d"})
+	u := sets.NewGenericUnion([]string{"a", "b", "c", "d"})
 	u.Union("a", "b") // 4 -> 3
 	u.Union("c", "d") // 3 -> 2
 	if got := u.Disjointed(); got != 2 {
@@ -92,7 +92,7 @@ func TestNamedUnionDecrementsDisjointedCount(t *testing.T) {
 }
 
 func TestNamedUnionIsSymmetric(t *testing.T) {
-	u := sets.NewStringsUnion([]string{"a", "b"})
+	u := sets.NewGenericUnion([]string{"a", "b"})
 	u.Union("b", "a")
 	if !u.IsUnion("a", "b") {
 		t.Error("expected Union(b,a) to connect a and b regardless of argument order")
@@ -102,7 +102,7 @@ func TestNamedUnionIsSymmetric(t *testing.T) {
 // --- IsUnion ---
 
 func TestNamedIsUnionTrueAfterMerge(t *testing.T) {
-	u := sets.NewStringsUnion([]string{"a", "b", "c"})
+	u := sets.NewGenericUnion([]string{"a", "b", "c"})
 	u.Union("a", "b")
 	if !u.IsUnion("a", "b") {
 		t.Error("expected a and b to be in the same set after Union")
@@ -110,7 +110,7 @@ func TestNamedIsUnionTrueAfterMerge(t *testing.T) {
 }
 
 func TestNamedIsUnionTransitive(t *testing.T) {
-	u := sets.NewStringsUnion([]string{"a", "b", "c", "d"})
+	u := sets.NewGenericUnion([]string{"a", "b", "c", "d"})
 	u.Union("a", "b")
 	u.Union("b", "c")
 	if !u.IsUnion("a", "c") {
@@ -122,7 +122,7 @@ func TestNamedIsUnionTransitive(t *testing.T) {
 }
 
 func TestNamedIsUnionUnknownNameReturnsFalse(t *testing.T) {
-	u := sets.NewStringsUnion([]string{"a", "b"})
+	u := sets.NewGenericUnion([]string{"a", "b"})
 	if u.IsUnion("a", "ghost") {
 		t.Error("expected IsUnion with an unknown name to return false")
 	}
@@ -131,7 +131,7 @@ func TestNamedIsUnionUnknownNameReturnsFalse(t *testing.T) {
 // --- Rep ---
 
 func TestRepIsSharedAfterUnion(t *testing.T) {
-	u := sets.NewStringsUnion([]string{"a", "b", "c"})
+	u := sets.NewGenericUnion([]string{"a", "b", "c"})
 	u.Union("a", "b")
 	u.Union("b", "c")
 
@@ -144,14 +144,14 @@ func TestRepIsSharedAfterUnion(t *testing.T) {
 }
 
 func TestRepUnknownNameReturnsFalse(t *testing.T) {
-	u := sets.NewStringsUnion([]string{"a", "b"})
+	u := sets.NewGenericUnion([]string{"a", "b"})
 	if rep, ok := u.Rep("ghost"); ok || rep != "" {
 		t.Errorf("expected (\"\", false) for an unknown name, got (%q, %v)", rep, ok)
 	}
 }
 
 func TestRepDistinctForSeparateSets(t *testing.T) {
-	u := sets.NewStringsUnion([]string{"a", "b", "c", "d"})
+	u := sets.NewGenericUnion([]string{"a", "b", "c", "d"})
 	u.Union("a", "b")
 	u.Union("c", "d")
 
@@ -162,16 +162,52 @@ func TestRepDistinctForSeparateSets(t *testing.T) {
 	}
 }
 
+// --- Generics: works with non-string ordered types ---
+
+func TestGenericUnionWithIntegers(t *testing.T) {
+	ports := sets.NewGenericUnion([]int{80, 443, 8080, 8443})
+	if disjointCount := ports.Disjointed(); disjointCount != 4 {
+		t.Errorf("expected 4 disjoint sets initially, got %d", disjointCount)
+	}
+
+	ports.Union(80, 443)
+	ports.Union(8080, 8443)
+	if disjointCount := ports.Disjointed(); disjointCount != 2 {
+		t.Errorf("expected 2 disjoint sets after merges, got %d", disjointCount)
+	}
+	if !ports.IsUnion(80, 443) {
+		t.Error("expected 80 and 443 to be in the same set")
+	}
+	if ports.IsUnion(80, 8080) {
+		t.Error("expected 80 and 8080 to be in different sets")
+	}
+
+	representative, known := ports.Rep(80)
+	if !known {
+		t.Error("expected 80 to be a known element")
+	}
+	if otherRepresentative, _ := ports.Rep(443); representative != otherRepresentative {
+		t.Errorf("expected 80 and 443 to share a representative, got %d and %d", representative, otherRepresentative)
+	}
+}
+
+func TestGenericUnionIntZeroValueRepOnUnknown(t *testing.T) {
+	ports := sets.NewGenericUnion([]int{1, 2})
+	if representative, known := ports.Rep(999); known || representative != 0 {
+		t.Errorf("expected (0, false) for an unknown element, got (%d, %v)", representative, known)
+	}
+}
+
 // --- Scenario: grouping people into friend circles ---
 
 func TestFriendCircles(t *testing.T) {
 	friendships := [][2]string{
 		{"alice", "bob"}, {"bob", "carol"}, // circle A: alice-bob-carol
-		{"dave", "erin"},                    // circle B: dave-erin
+		{"dave", "erin"},                       // circle B: dave-erin
 		{"frank", "grace"}, {"grace", "frank"}, // circle C: frank-grace (redundant)
 	}
 
-	circles := sets.NewStringsUnion([]string{
+	circles := sets.NewGenericUnion([]string{
 		"alice", "bob", "carol", "dave", "erin", "frank", "grace",
 	})
 	for _, f := range friendships {

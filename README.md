@@ -35,13 +35,25 @@
 
 # Documentation
 
+> linear Structures
+
 ```bash
 go doc -all ./linear | bat -l go
 ```
 
+> algorithms
+
 ```bash
 go doc -all ./algo | bat -l go
 ```
+
+> Sets
+
+```bash
+go doc -all ./sets/ | bat -l go
+```
+
+> trees
 
 ```bash
 for p in ./trees/ ./trees/avl ./trees/heap; do go doc -all "$p"; done | bat -l go
@@ -52,6 +64,10 @@ for p in ./trees/ ./trees/avl ./trees/heap; do go doc -all "$p"; done | bat -l g
 ```bash
 go test ./tests/...
 ```
+
+# External references
+
+https://xlinux.nist.gov/dads/
 
 ## Disclosure
 
