@@ -13,25 +13,31 @@
 - [x] Binary Search Tree
 - [x] AVL Tree
 - [x] Heap (min/max)
+  - - [x] Priority Queue
 - [ ] Trie
+
+## Graph
+
+- [ ] Unweighted
+- [ ] Weighted
 
 ## Sets
 
 - [x] Union Find
-- [ ] Bloom filter
-- [ ] HyperLogLog
+  - - [ ] Bloom filter
+  - - [ ] Hyper Log Log
 
 # Algorithms ωψγ
 
 - [x] Kadane's Algorithm
-- [x] Euclidean gcd
+- [x] Euclidean GCD
 - [x] Fibonacci
 - [x] Heap Sort
 - [ ] Modular Arithmetic
 - [ ] Sieve of Eratosthenes
 - [x] BFS Breadth-First Search
 - [ ] DFS Depth-First Search
-- [ ] Karatsuba algorithm
+- [x] Miller Rabin prime test
 
 # Documentation
 
