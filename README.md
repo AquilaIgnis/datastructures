@@ -18,14 +18,18 @@
 
 ## Graph
 
-- [ ] Unweighted
+- [x] Unweighted
 - [ ] Weighted
+- [ ] Directed
 
 ## Sets
 
 - [x] Union Find
-  - - [ ] Bloom filter
-  - - [ ] Hyper Log Log
+
+## Probabilistic
+
+- [ ] Bloom filter
+- [ ] Hyper Log Log
 
 # Algorithms ωψγ
 
@@ -63,6 +67,12 @@ go doc -all ./sets/ | bat -l go
 
 ```bash
 for p in ./trees/ ./trees/avl ./trees/heap; do go doc -all "$p"; done | bat -l go
+```
+
+> Graphs
+
+```bash
+go doc -all ./graphs | bat -l go
 ```
 
 # Tests
